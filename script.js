@@ -1,6 +1,6 @@
 let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
-let box = 32;
+let box = 32; /* Tamanho de cada quadrinho do background */
 let snake = [];
 snake[0] = {
     x: 8 * box,
@@ -20,7 +20,22 @@ function criarCobrinha() {
     }
 }
 
+document.addEventListener('keydown', update); /* Ouve o evento de tecla pressionada e chame a função 'update' */
+
+function update(event) {
+    //Cada tecla corresponde à um número, direção que vai não pode ser oposta a que está agora
+    if (event.keyCode == 37 && direction != "right") direction = "left";
+    if (event.keyCode == 38 && direction != "down") direction = "up";
+    if (event.keyCode == 39 && direction != "left") direction = "right";
+    if (event.keyCode == 40 && direction != "up") direction = "down";
+}
+
 function iniciarJogo() {
+    if (snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
+    if (snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
+    if (snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
+    if (snake[0].y < 0 && direction == "up") snake[0].y = 16 * box;
+
     criarBG();
     criarCobrinha();
 
